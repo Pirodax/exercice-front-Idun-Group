@@ -3,31 +3,47 @@ import React, { useState, useEffect } from 'react';
 import produitsData from '../../data/produits.json';
 import Image from 'next/image';
 
-
+////////////////////////////////////////
 // Récupère les catégories uniques
 const categories = Array.from(new Set(produitsData.map((p: any) => p.category)));
-////////////////////////////////////////
+
+// tier par prix ou note
+type SortField = 'price' | 'rating' | '';
+type SortOrder = 'asc' | 'desc';
+
 //recherche de produits avec debounce
 const Produicts = () => {
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('Toutes'); //tir par catégorie
-
+  const [sortField, setSortField] = useState<SortField>(''); // 'price' | 'rating' | ''
+  const [sortOrder, setSortOrder] = useState<SortOrder>('asc'); // 'asc' | 'desc'
   const [filtered, setFiltered] = useState(produitsData);
 
- useEffect(() => {
+useEffect(() => {
     const timer = setTimeout(() => {
       const query = search.trim().toLowerCase();
-      setFiltered(
-        produitsData.filter((produit: any) => {
-          const matchName = produit.name.toLowerCase().includes(query);
-          const matchCategory =
-            selectedCategory === 'Toutes' || produit.category === selectedCategory;
-          return matchName && matchCategory;
-        })
-      );
+      let result = produitsData.filter((produit: any) => {
+        const matchName = produit.name.toLowerCase().includes(query);
+        const matchCategory =
+          selectedCategory === 'Toutes' || produit.category === selectedCategory;
+        return matchName && matchCategory;
+      });
+
+      // Tri
+      if (sortField) {
+        result = [...result].sort((a: any, b: any) => {
+          if (sortOrder === 'asc') {
+            return a[sortField] - b[sortField];
+          } else {
+            return b[sortField] - a[sortField];
+          }
+        });
+      }
+
+      setFiltered(result);
     }, 300);
     return () => clearTimeout(timer);
-  }, [search, selectedCategory]);
+  }, [search, selectedCategory, sortField, sortOrder]);
 ////////////////////////////////////////
 
   if (!produitsData || !Array.isArray(produitsData) || produitsData.length === 0) {
@@ -56,6 +72,23 @@ const Produicts = () => {
           {categories.map(cat => (
             <option key={cat} value={cat}>{cat}</option>
           ))}
+        </select>
+        <select
+          value={sortField}
+          onChange={e => setSortField(e.target.value as SortField)}
+          className="px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[#bfa077] bg-gray-200 text-[#bfa077] font-semibold"
+        >
+          <option value="">Tri par</option>
+          <option value="price">Prix</option>
+          <option value="rating">Note</option>
+        </select>
+        <select
+          value={sortOrder}
+          onChange={e => setSortOrder(e.target.value as SortOrder)}
+          className="px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[#bfa077] bg-gray-200 text-[#bfa077] font-semibold"
+        >
+          <option value="asc">Croissant</option>
+          <option value="desc">Décroissant</option>
         </select>
       </div>
       

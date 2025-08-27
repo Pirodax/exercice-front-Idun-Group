@@ -10,10 +10,9 @@ Démontrer une utilisation efficace et maîtrisée d’un outil d’IA pour gagn
 1. Créer une page liste accessible à l’URL `/produits` qui charge les données produits côté serveur.
 2. Afficher une grille de cartes produits avec image, nom, prix et note.
 3. Ajouter une recherche par nom, insensible à la casse, avec un debouncing d’environ 300 ms.
-
-
 4. Ajouter un filtre par catégorie basé sur les catégories présentes dans la donnée.
 5. Ajouter un tri par prix et par note avec ordre croissant et décroissant.
+
 6. Permettre d’ajouter ou retirer un produit des favoris. Persister l’état dans `localStorage`. Afficher un compteur de favoris dans un en‑tête.
 7. Créer une page détail à l’URL `/produits/[id]` avec métadonnées dynamiques, un état `loading` et un état `not‑found`.
 8. Soigner l’accessibilité de base. Les images ont un `alt` pertinent. Le bouton favoris est un vrai bouton avec `aria-pressed`.
