@@ -5,8 +5,19 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 ////////////////////////////////////////
+// Définition du type Produit
+type Produit = {
+  id: number;
+  name: string;
+  price: number;
+  rating: number;
+  category: string;
+  image: string;
+};
+
+////////////////////////////////////////
 // Récupère les catégories uniques
-const categories = Array.from(new Set(produitsData.map((p: any) => p.category)));
+const categories = Array.from(new Set((produitsData as Produit[]).map((p) => p.category)));
 
 // tier par prix ou note
 type SortField = 'price' | 'rating' | '';
@@ -21,9 +32,9 @@ const Produicts = () => {
   const [sortField, setSortField] = useState<SortField>(''); // 'price' | 'rating' | ''
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc'); // 'asc' | 'desc'
   const [favoris, setFavoris] = useState<number[]>([]); //favoris
-  const [filtered, setFiltered] = useState(produitsData);
+  const [filtered, setFiltered] = useState<Produit[]>(produitsData as Produit[]);
 
-// Charger favoris depuis localStorage au montage
+  // Charger favoris depuis localStorage au montage
   useEffect(() => {
     const stored = localStorage.getItem(FAVORIS_KEY);
     if (stored) {
@@ -40,7 +51,7 @@ const Produicts = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       const query = search.trim().toLowerCase();
-      let result = produitsData.filter((produit: any) => {
+      let result = (produitsData as Produit[]).filter((produit) => {
         const matchName = produit.name.toLowerCase().includes(query);
         const matchCategory =
           selectedCategory === 'Toutes' || produit.category === selectedCategory;
@@ -48,7 +59,7 @@ const Produicts = () => {
       });
 
       if (sortField) {
-        result = [...result].sort((a: any, b: any) => {
+        result = [...result].sort((a, b) => {
           if (sortOrder === 'asc') {
             return a[sortField] - b[sortField];
           } else {
@@ -64,19 +75,19 @@ const Produicts = () => {
 
   // Ajouter/retirer des favoris
   const toggleFavori = (id: number) => {
-    setFavoris(favoris =>
+    setFavoris((favoris) =>
       favoris.includes(id)
-        ? favoris.filter(fid => fid !== id)
+        ? favoris.filter((fid) => fid !== id)
         : [...favoris, id]
     );
   };
 ////////////////////////////////////////
 
-  if (!produitsData || !Array.isArray(produitsData) || produitsData.length === 0) {
+  if (!produitsData || !Array.isArray(produitsData) || (produitsData as Produit[]).length === 0) {
     return <div className="text-center py-10">Aucun produit trouvé.</div>;
   }
 
- return (
+  return (
     <div className="py-20 px-3 md:px-0 max-w-5xl mx-auto" id="produits">
       <h1 className="text-3xl text-[#bfa077] md:text-5xl font-bold text-center mb-10">
         Nos produits
@@ -92,22 +103,22 @@ const Produicts = () => {
           type="text"
           placeholder="Rechercher un produit..."
           value={search}
-          onChange={e => setSearch(e.target.value)}
+          onChange={(e) => setSearch(e.target.value)}
           className="px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[#bfa077] w-full max-w-md bg-gray-200 text-[#bfa077] placeholder:text-[#bfa077]/60"
         />
         <select
           value={selectedCategory}
-          onChange={e => setSelectedCategory(e.target.value)}
+          onChange={(e) => setSelectedCategory(e.target.value)}
           className="px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[#bfa077] bg-gray-200 text-[#bfa077] font-semibold"
         >
           <option value="Toutes">Toutes les catégories</option>
-          {categories.map(cat => (
+          {categories.map((cat) => (
             <option key={cat} value={cat}>{cat}</option>
           ))}
         </select>
         <select
           value={sortField}
-          onChange={e => setSortField(e.target.value as SortField)}
+          onChange={(e) => setSortField(e.target.value as SortField)}
           className="px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[#bfa077] bg-gray-200 text-[#bfa077] font-semibold"
         >
           <option value="">Tri par</option>
@@ -116,7 +127,7 @@ const Produicts = () => {
         </select>
         <select
           value={sortOrder}
-          onChange={e => setSortOrder(e.target.value as SortOrder)}
+          onChange={(e) => setSortOrder(e.target.value as SortOrder)}
           className="px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[#bfa077] bg-gray-200 text-[#bfa077] font-semibold"
         >
           <option value="asc">Croissant</option>
@@ -128,7 +139,7 @@ const Produicts = () => {
         {filtered.length === 0 ? (
           <div className="col-span-3 text-center text-[#bfa077]">Aucun produit trouvé.</div>
         ) : (
-          filtered.map((produit: any) => {
+          filtered.map((produit) => {
             const isFavori = favoris.includes(produit.id);
             return (
               <Link

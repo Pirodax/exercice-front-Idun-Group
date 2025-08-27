@@ -39,3 +39,7 @@ Enfin, réglage des warnings et rédaction des documents .md.
 - Rédaction du présent **`README.md`** pour décrire le projet, son architecture, ses fonctionnalités, ses limites et les ajustements réalisés.
 
 ---
+## 🔄 Déploiement + 15 min 
+- Après hésitation, j’ai décidé de revenir sur le projet pour le déployer via Vercel. Durant notre entretien, je me suis rappelé que vous utilisiez Vercel pour montrer les prototypes aux clients ; j’ai donc choisi de faire de même.
+
+- Correction des erreurs de build (suppression des any dans le code). Je n’ai pas souhaité modifier data/produits.json, j’ai donc redéfini à chaque fois le type Produit.

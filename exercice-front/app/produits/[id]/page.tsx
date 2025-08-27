@@ -1,6 +1,17 @@
 import produitsData from "@/data/produits.json";
 import Image from "next/image";
 
+
+
+type Produit = {
+  id: number;
+  name: string;
+  price: number;
+  rating: number;
+  category: string;
+  image: string;
+};
+
 export default async function ProduitDetailPage({
   params,
 }: {
@@ -9,7 +20,10 @@ export default async function ProduitDetailPage({
   // ⚠️ on attend la résolution
   const { id } = await params;
   const produitId = Number(id);
-  const produit = produitsData.find((p: any) => p.id === produitId);
+
+  // suppression de any 
+  const produits: Produit[] = produitsData as Produit[];
+  const produit = produits.find((p) => p.id === produitId);
 
   if (!produit) {
     return (

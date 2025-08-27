@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 
 const Hero: React.FC = () => (
  <div className="py-20 px-3 md:px-0 max-w-5xl mx-auto" id="home">
