@@ -1,12 +1,14 @@
-import produitsData from '../../../data/produits.json';
-import Image from 'next/image';
+import produitsData from "@/data/produits.json";
+import Image from "next/image";
 
-interface ProduitDetailProps {
-  params: { id: string };
-}
-
-export default function ProduitDetailPage({ params }: ProduitDetailProps) {
-  const produitId = Number(params.id);
+export default async function ProduitDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  // ⚠️ on attend la résolution
+  const { id } = await params;
+  const produitId = Number(id);
   const produit = produitsData.find((p: any) => p.id === produitId);
 
   if (!produit) {
