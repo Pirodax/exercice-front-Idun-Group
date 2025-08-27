@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mini Application Next.js — Catalogue Produits exercice
 
-## Getting Started
+### MES choix
+D’abord, la création correcte et claire de l’architecture.
 
-First, run the development server:
+Ensuite, la modification de layout et app/page pour y intégrer les composants Hero et Produit.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Avec le composant Produit, l’affichage des produits depuis data/produits.json.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Une fois le composant Produit finalisé, mise en place de la redirection vers app/produits/[id]/page pour afficher le détail de chaque produit.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Création des fichiers loading et not-found.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Enfin, réglage des warnings et rédaction des documents .md.
 
-## Learn More
+## ✅ Réalisé dans le temps imparti (60 minutes)
 
-To learn more about Next.js, take a look at the following resources:
+- Mise en place d’une architecture claire (`app/`, `components/ui/`, `data/`).  
+- Création du layout global avec en-tête et compteur de favoris.  
+- Ajout de la page d’accueil avec un composant Hero.  
+- Développement du composant `Products` : affichage des produits depuis `data/produits.json`.  
+- Implémentation de la recherche (debounce), du filtre par catégorie et du tri prix/note.  
+- Mise en place des favoris persistants dans `localStorage`.  
+- Création de la page détail produit dans `app/produits/[id]/page.tsx`.  
+- Ajout des états `loading.tsx` et `not-found.tsx`.  
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Limites dans le temps imparti
+- Pas de footer implémenté (manque de temps).
+- Un warning persistait sur la page `/produits/[id]` concernant l’utilisation de `params` dans Next.js 15.
+- Pas encore de fichier `README.md` ni `AI_LOG.md`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🔄 Finalisation après +40 minutes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Corrections et ajouts
+- Correction du **warning `params should be awaited before using its properties`** :  
+- Rédaction du fichier **`AI_LOG.md`** pour documenter l’usage de l’IA : prompts utilisés, extraits acceptés, modifications effectuées et vérifications.
+- Rédaction du présent **`README.md`** pour décrire le projet, son architecture, ses fonctionnalités, ses limites et les ajustements réalisés.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
