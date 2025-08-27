@@ -1,36 +1,89 @@
-import React from 'react';
+'use client';
+import React, { useState, useEffect } from 'react';
 import produitsData from '../../data/produits.json';
 import Image from 'next/image';
 
+
+// Récupère les catégories uniques
+const categories = Array.from(new Set(produitsData.map((p: any) => p.category)));
+////////////////////////////////////////
+//recherche de produits avec debounce
 const Produicts = () => {
+  const [search, setSearch] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('Toutes'); //tir par catégorie
+
+  const [filtered, setFiltered] = useState(produitsData);
+
+ useEffect(() => {
+    const timer = setTimeout(() => {
+      const query = search.trim().toLowerCase();
+      setFiltered(
+        produitsData.filter((produit: any) => {
+          const matchName = produit.name.toLowerCase().includes(query);
+          const matchCategory =
+            selectedCategory === 'Toutes' || produit.category === selectedCategory;
+          return matchName && matchCategory;
+        })
+      );
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [search, selectedCategory]);
+////////////////////////////////////////
+
   if (!produitsData || !Array.isArray(produitsData) || produitsData.length === 0) {
     return <div className="text-center py-10">Aucun produit trouvé.</div>;
   }
 
   return (
     <div className="py-20 px-3 md:px-0 max-w-5xl mx-auto" id="produits">
-      <h1 className="text-3xl text-[#bfa077] md:text-5xl font-bold text-center mb-16">
+      <h1 className="text-3xl text-[#bfa077] md:text-5xl font-bold text-center mb-10">
         Nos produits
       </h1>
+      <div className="mb-8 flex justify-center">
+        <input // search bar
+          type="text"
+          placeholder="Rechercher un produit..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          className="px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[#bfa077] w-full max-w-md bg-gray-200 text-[#bfa077] placeholder:text-[#bfa077]/60"
+        />
+          <select
+          value={selectedCategory}
+          onChange={e => setSelectedCategory(e.target.value)}
+          className="px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[#bfa077] bg-gray-200 text-[#bfa077] font-semibold"
+        >
+          <option value="Toutes">Toutes les catégories</option>
+          {categories.map(cat => (
+            <option key={cat} value={cat}>{cat}</option>
+          ))}
+        </select>
+      </div>
+      
+
+
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
-        {produitsData.map((produit: any) => (
-          <div
-            key={produit.id}
-            className="flex flex-col items-center bg-white/80 rounded-2xl shadow-xl px-2 py-6 hover:shadow-2xl transition group"
-          >
-            <Image
-              src={produit.image}
-              alt={produit.name}
-              className="rounded-xl w-full object-cover max-h-60 shadow-md group-hover:scale-105 transition"
-              width={250}
-              height={150}
-            />
-            <h3 className="mt-4 text-center text-xl text-[#7b5e38] font-semibold">{produit.name}</h3>
-            <p className="mt-2 text-center text-base text-[#bfa077] font-bold">{produit.price.toFixed(2)} €</p>
-            <p className="mt-2 text-center text-sm text-[#888]">Note : {produit.rating} ⭐</p>
-            {/* Tu peux ajouter un bouton ici si besoin */}
-          </div>
-        ))}
+        {filtered.length === 0 ? (
+          <div className="col-span-3 text-center text-[#bfa077]">Aucun produit trouvé.</div>
+        ) : (
+          filtered.map((produit: any) => (
+            <div
+              key={produit.id}
+              className="flex flex-col items-center bg-white/80 rounded-2xl shadow-xl px-2 py-6 hover:shadow-2xl transition group"
+            >
+              <Image
+                src={produit.image}
+                alt={produit.name}
+                className="rounded-xl w-full object-cover max-h-60 shadow-md group-hover:scale-105 transition"
+                width={250}
+                height={150}
+              />
+              <h3 className="mt-4 text-center text-xl text-[#7b5e38] font-semibold">{produit.name}</h3>
+              <p className="mt-2 text-center text-base text-[#bfa077] font-bold">{produit.price.toFixed(2)} €</p>
+              <p className="mt-2 text-center text-sm text-[#888]">Note : {produit.rating} ⭐</p>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
