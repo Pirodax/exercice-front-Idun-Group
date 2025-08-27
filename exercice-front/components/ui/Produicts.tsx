@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import produitsData from '../../data/produits.json';
 import Image from 'next/image';
+import Link from 'next/link';
 
 ////////////////////////////////////////
 // Récupère les catégories uniques
@@ -122,7 +123,7 @@ const Produicts = () => {
           <option value="desc">Décroissant</option>
         </select>
       </div>
-
+      
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
         {filtered.length === 0 ? (
           <div className="col-span-3 text-center text-[#bfa077]">Aucun produit trouvé.</div>
@@ -130,9 +131,10 @@ const Produicts = () => {
           filtered.map((produit: any) => {
             const isFavori = favoris.includes(produit.id);
             return (
-              <div
+              <Link
+                href={`/produits/${produit.id}`}
                 key={produit.id}
-                className="flex flex-col items-center bg-white/80 rounded-2xl shadow-xl px-2 py-6 hover:shadow-2xl transition group relative"
+                className="flex flex-col items-center bg-white/80 rounded-2xl shadow-xl px-2 py-6 hover:shadow-2xl transition group relative cursor-pointer"
               >
                 <Image
                   src={produit.image}
@@ -158,7 +160,7 @@ const Produicts = () => {
                 </div>
                 <p className="mt-2 text-center text-base text-[#bfa077] font-bold">{produit.price.toFixed(2)} €</p>
                 <p className="mt-2 text-center text-sm text-[#888]">Note : {produit.rating} ⭐</p>
-              </div>
+              </Link>
             );
           })
         )}
