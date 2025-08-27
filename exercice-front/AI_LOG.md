@@ -92,9 +92,6 @@ l'erreur est toujours présante je relis l'explication.
 # Objectif  
 suite de le prompt précédant je comprend mieux le probleme et me rappel que j'ai eu le meme dans un autre projet 
 # Prompt  
-
-
-
 params est asynchrone depuis Next.js 15 ne faut t'il pas le définir comme t'elle ? export default async function ProduitDetailPage({ params }: { params: Promise<{ slug: string }> }) { const { id } = await params; 
 # Extrait adopté  
 Exactement 💡 tu as mis le doigt sur la nouveauté :
@@ -156,8 +153,10 @@ export default async function ProduitDetailPage({
   );
 }
 
+# Modifications et raisons
 
-#  Modifications et raisons  
-je mets a jour mon code en typent params comme une Promise et je mets const { id } = await params;.
+J’ai mis à jour mon code en typant params comme une Promise et en utilisant const { id } = await params;.
+
 # Vérifications effectuées
-le warning  "params should be awaited before using its properties" à disparu car j'ai correctement await avant d’accéder à ses propriétés 
+
+Le warning "params should be awaited before using its properties" a disparu car j’ai correctement utilisé await avant d’accéder à ses propriétés.
