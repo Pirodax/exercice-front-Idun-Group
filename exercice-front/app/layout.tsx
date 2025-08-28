@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Exercie Front",
-  description: "Exercice front pour entretiens dev front",
+  title: "Exercice Frontend -- Idun-Group",
+  description: "Exercice Frontend -- Idun-Group",
 };
 
 export default function RootLayout({
